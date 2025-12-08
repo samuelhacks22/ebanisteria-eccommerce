@@ -1,0 +1,191 @@
+import { useState, useEffect, useCallback } from 'react';
+import { Plus } from 'lucide-react';
+import api from '../services/api';
+import DataTable from '../components/DataTable';
+import Modal from '../components/Modal';
+import OrderForm from '../components/OrderForm';
+
+const Orders = () => {
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [statusFilter, setStatusFilter] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingOrder, setEditingOrder] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+    const fetchOrders = useCallback(async () => {
+        setLoading(true);
+        try {
+            const params = { page, limit: 10 };
+            if (statusFilter) params.status = statusFilter;
+
+            const response = await api.get('/orders', { params });
+            setOrders(response.data.data.orders);
+            const total = response.data.data.total;
+            setTotalPages(Math.ceil(total / 10));
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, [page, statusFilter, refreshTrigger]);
+
+    useEffect(() => {
+        fetchOrders();
+    }, [fetchOrders]);
+
+    const handleAdd = () => {
+        setEditingOrder(null);
+        setIsModalOpen(true);
+    };
+
+    const handleEdit = (order) => {
+        setEditingOrder(order);
+        setIsModalOpen(true);
+    };
+
+    const handleDelete = async (order) => {
+        if (window.confirm('Are you sure you want to delete this order?')) {
+            try {
+                await api.delete(`/orders/${order.id}`);
+                setRefreshTrigger(prev => prev + 1);
+            } catch (error) {
+                console.error('Error deleting order:', error);
+                alert('Failed to delete order');
+            }
+        }
+    };
+
+    const handleSave = async (formData) => {
+        try {
+            if (editingOrder) {
+                await api.put(`/orders/${editingOrder.id}`, formData);
+            } else {
+                await api.post('/orders', formData);
+            }
+            setIsModalOpen(false);
+            setRefreshTrigger(prev => prev + 1);
+        } catch (error) {
+            console.error('Error saving order:', error);
+            alert(error.response?.data?.error || 'Failed to save order');
+        }
+    };
+
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'pending': return '#FF9800';
+            case 'in_progress': return '#2196F3';
+            case 'completed': return '#4CAF50';
+            case 'delivered': return '#9C27B0';
+            default: return '#999';
+        }
+    };
+
+    const columns = [
+        { header: 'Order #', accessor: 'order_number' },
+        { header: 'Customer', accessor: 'customer_name' },
+        { header: 'Type', accessor: 'furniture_type' },
+        { header: 'Price', accessor: 'agreed_price', render: (row) => `$${row.agreed_price}` },
+        {
+            header: 'Status',
+            accessor: 'status',
+            render: (row) => (
+                <span style={{
+                    backgroundColor: getStatusColor(row.status),
+                    color: 'white',
+                    padding: '4px 8px',
+                    borderRadius: '12px',
+                    fontSize: '0.8rem',
+                    textTransform: 'capitalize'
+                }}>
+                    {row.status.replace('_', ' ')}
+                </span>
+            )
+        },
+        {
+            header: 'Delivery',
+            accessor: 'estimated_delivery',
+            render: (row) => row.estimated_delivery ? new Date(row.estimated_delivery).toLocaleDateString() : '-'
+        }
+    ];
+
+    return (
+        <div style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h1 style={{ margin: 0, color: '#333' }}>Orders</h1>
+                <button
+                    onClick={handleAdd}
+                    style={{
+                        backgroundColor: '#8B4513',
+                        color: 'white',
+                        padding: '10px 16px',
+                        borderRadius: '4px',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        cursor: 'pointer'
+                    }}
+                >
+                    <Plus size={20} /> Create Order
+                </button>
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+                <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                >
+                    <option value="">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="delivered">Delivered</option>
+                </select>
+            </div>
+
+            <DataTable
+                columns={columns}
+                data={orders}
+                isLoading={loading}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+            />
+
+            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                <button
+                    disabled={page === 1}
+                    onClick={() => setPage(p => p - 1)}
+                    style={{ padding: '5px 10px', cursor: 'pointer', disabled: page === 1 }}
+                >
+                    Previous
+                </button>
+                <span style={{ padding: '5px' }}>Page {page} of {totalPages || 1}</span>
+                <button
+                    disabled={page >= totalPages}
+                    onClick={() => setPage(p => p + 1)}
+                    style={{ padding: '5px 10px', cursor: 'pointer', disabled: page >= totalPages }}
+                >
+                    Next
+                </button>
+            </div>
+
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title={editingOrder ? "Edit Order" : "Create Order"}
+            >
+                <OrderForm
+                    order={editingOrder}
+                    onSave={handleSave}
+                    onCancel={() => setIsModalOpen(false)}
+                />
+            </Modal>
+        </div>
+    );
+};
+
+export default Orders;

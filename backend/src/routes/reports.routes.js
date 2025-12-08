@@ -1,0 +1,11 @@
+const express = require('express');
+const router = express.Router();
+const reportController = require('../controllers/reportController');
+const { verifyToken } = require('../middleware/authMiddleware');
+
+router.use(verifyToken);
+
+router.get('/orders', reportController.getOrdersReport);
+router.get('/inventory', reportController.getInventoryReport);
+
+module.exports = router;
