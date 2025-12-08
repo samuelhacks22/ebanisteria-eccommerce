@@ -9,11 +9,11 @@ const Sidebar = ({ isOpen }) => {
     if (!isOpen) return null; // Or simpler implementation for mobile
 
     const menuItems = [
-        { path: '/', label: 'Dashboard', icon: <Home size={20} /> },
-        { path: '/customers', label: 'Customers', icon: <Users size={20} /> },
-        { path: '/orders', label: 'Orders', icon: <ShoppingCart size={20} /> },
-        { path: '/materials', label: 'Materials', icon: <Hammer size={20} /> },
-        { path: '/reports', label: 'Reports', icon: <FileText size={20} /> },
+        { path: '/', label: 'Panel Principal', icon: <Home size={20} /> },
+        { path: '/customers', label: 'Clientes', icon: <Users size={20} /> },
+        { path: '/orders', label: 'Pedidos', icon: <ShoppingCart size={20} /> },
+        { path: '/materials', label: 'Materiales', icon: <Hammer size={20} /> },
+        { path: '/reports', label: 'Reportes', icon: <FileText size={20} /> },
     ];
 
     return (

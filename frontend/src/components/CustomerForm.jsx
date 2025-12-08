@@ -25,9 +25,9 @@ const CustomerForm = ({ customer, onSave, onCancel }) => {
 
     const validate = () => {
         const newErrors = {};
-        if (!formData.identity_document) newErrors.identity_document = 'Required';
-        if (!formData.full_name) newErrors.full_name = 'Required';
-        if (!formData.phone) newErrors.phone = 'Required';
+        if (!formData.identity_document) newErrors.identity_document = 'Requerido';
+        if (!formData.full_name) newErrors.full_name = 'Requerido';
+        if (!formData.phone) newErrors.phone = 'Requerido';
         // Add more regex validation if needed
         return newErrors;
     };
@@ -53,7 +53,7 @@ const CustomerForm = ({ customer, onSave, onCancel }) => {
     return (
         <form onSubmit={handleSubmit}>
             <FormInput
-                label="Identity Document"
+                label="Documento de Identidad"
                 name="identity_document"
                 value={formData.identity_document}
                 onChange={handleChange}
@@ -61,7 +61,7 @@ const CustomerForm = ({ customer, onSave, onCancel }) => {
                 required
             />
             <FormInput
-                label="Full Name"
+                label="Nombre Completo"
                 name="full_name"
                 value={formData.full_name}
                 onChange={handleChange}
@@ -69,7 +69,7 @@ const CustomerForm = ({ customer, onSave, onCancel }) => {
                 required
             />
             <FormInput
-                label="Phone"
+                label="Teléfono"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
@@ -85,7 +85,7 @@ const CustomerForm = ({ customer, onSave, onCancel }) => {
                 error={errors.email}
             />
             <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', fontWeight: 600, color: '#333' }}>Address</label>
+                <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', fontWeight: 600, color: '#333' }}>Dirección</label>
                 <textarea
                     name="address"
                     value={formData.address}
@@ -101,13 +101,13 @@ const CustomerForm = ({ customer, onSave, onCancel }) => {
                     onClick={onCancel}
                     style={{ padding: '8px 16px', backgroundColor: '#e0e0e0', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
                 >
-                    Cancel
+                    Cancelar
                 </button>
                 <button
                     type="submit"
                     style={{ padding: '8px 16px', backgroundColor: '#8B4513', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
                 >
-                    {customer ? 'Update' : 'Create'}
+                    {customer ? 'Actualizar' : 'Crear'}
                 </button>
             </div>
         </form>

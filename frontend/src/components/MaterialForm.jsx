@@ -27,9 +27,9 @@ const MaterialForm = ({ material, onSave, onCancel }) => {
 
     const validate = () => {
         const newErrors = {};
-        if (!formData.name) newErrors.name = 'Required';
-        if (!formData.category) newErrors.category = 'Required';
-        if (!formData.unit) newErrors.unit = 'Required';
+        if (!formData.name) newErrors.name = 'Requerido';
+        if (!formData.category) newErrors.category = 'Requerido';
+        if (!formData.unit) newErrors.unit = 'Requerido';
         // Basic number validation could be added here
         return newErrors;
     };
@@ -55,7 +55,7 @@ const MaterialForm = ({ material, onSave, onCancel }) => {
     return (
         <form onSubmit={handleSubmit}>
             <FormInput
-                label="Name"
+                label="Nombre"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
@@ -64,14 +64,14 @@ const MaterialForm = ({ material, onSave, onCancel }) => {
             />
 
             <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>Category</label>
+                <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>Categoría</label>
                 <select
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
                     style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                 >
-                    <option value="">Select Category</option>
+                    <option value="">Seleccionar Categoría</option>
                     <option value="madera">Madera</option>
                     <option value="pintura">Pintura</option>
                     <option value="herrajes">Herrajes</option>
@@ -82,7 +82,7 @@ const MaterialForm = ({ material, onSave, onCancel }) => {
 
             <div style={{ display: 'flex', gap: '20px' }}>
                 <div style={{ flex: 1 }}>
-                    <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>Unit</label>
+                    <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>Unidad</label>
                     <select
                         name="unit"
                         value={formData.unit}
@@ -97,7 +97,7 @@ const MaterialForm = ({ material, onSave, onCancel }) => {
                 </div>
                 <div style={{ flex: 1 }}>
                     <FormInput
-                        label="Unit Cost"
+                        label="Costo Unitario"
                         name="unit_cost"
                         type="number"
                         step="0.01"
@@ -110,7 +110,7 @@ const MaterialForm = ({ material, onSave, onCancel }) => {
             <div style={{ display: 'flex', gap: '20px' }}>
                 <div style={{ flex: 1 }}>
                     <FormInput
-                        label="Current Stock"
+                        label="Stock Actual"
                         name="current_stock"
                         type="number"
                         step="0.01"
@@ -120,7 +120,7 @@ const MaterialForm = ({ material, onSave, onCancel }) => {
                 </div>
                 <div style={{ flex: 1 }}>
                     <FormInput
-                        label="Min Stock Alert"
+                        label="Alerta de Stock Bajo"
                         name="min_stock_alert"
                         type="number"
                         step="0.01"
@@ -136,13 +136,13 @@ const MaterialForm = ({ material, onSave, onCancel }) => {
                     onClick={onCancel}
                     style={{ padding: '8px 16px', backgroundColor: '#e0e0e0', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
                 >
-                    Cancel
+                    Cancelar
                 </button>
                 <button
                     type="submit"
                     style={{ padding: '8px 16px', backgroundColor: '#8B4513', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
                 >
-                    {material ? 'Update' : 'Add Material'}
+                    {material ? 'Actualizar' : 'Agregar Material'}
                 </button>
             </div>
         </form>

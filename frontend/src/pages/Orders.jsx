@@ -47,7 +47,7 @@ const Orders = () => {
     };
 
     const handleDelete = async (order) => {
-        if (window.confirm('Are you sure you want to delete this order?')) {
+        if (window.confirm('¿Estás seguro de que deseas eliminar este pedido?')) {
             try {
                 await api.delete(`/orders/${order.id}`);
                 setRefreshTrigger(prev => prev + 1);
@@ -69,7 +69,7 @@ const Orders = () => {
             setRefreshTrigger(prev => prev + 1);
         } catch (error) {
             console.error('Error saving order:', error);
-            alert(error.response?.data?.error || 'Failed to save order');
+            alert(error.response?.data?.error || 'Error al guardar pedido');
         }
     };
 
@@ -84,12 +84,12 @@ const Orders = () => {
     };
 
     const columns = [
-        { header: 'Order #', accessor: 'order_number' },
-        { header: 'Customer', accessor: 'customer_name' },
-        { header: 'Type', accessor: 'furniture_type' },
-        { header: 'Price', accessor: 'agreed_price', render: (row) => `$${row.agreed_price}` },
+        { header: 'Pedido #', accessor: 'order_number' },
+        { header: 'Cliente', accessor: 'customer_name' },
+        { header: 'Tipo', accessor: 'furniture_type' },
+        { header: 'Precio', accessor: 'agreed_price', render: (row) => `$${row.agreed_price}` },
         {
-            header: 'Status',
+            header: 'Estado',
             accessor: 'status',
             render: (row) => (
                 <span style={{
@@ -100,12 +100,14 @@ const Orders = () => {
                     fontSize: '0.8rem',
                     textTransform: 'capitalize'
                 }}>
-                    {row.status.replace('_', ' ')}
+                    {row.status === 'pending' ? 'Pendiente' :
+                        row.status === 'in_progress' ? 'En Progreso' :
+                            row.status === 'completed' ? 'Completado' : 'Entregado'}
                 </span>
             )
         },
         {
-            header: 'Delivery',
+            header: 'Entrega',
             accessor: 'estimated_delivery',
             render: (row) => row.estimated_delivery ? new Date(row.estimated_delivery).toLocaleDateString() : '-'
         }
@@ -114,7 +116,7 @@ const Orders = () => {
     return (
         <div style={{ padding: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h1 style={{ margin: 0, color: '#333' }}>Orders</h1>
+                <h1 style={{ margin: 0, color: '#333' }}>Pedidos</h1>
                 <button
                     onClick={handleAdd}
                     style={{
@@ -129,7 +131,7 @@ const Orders = () => {
                         cursor: 'pointer'
                     }}
                 >
-                    <Plus size={20} /> Create Order
+                    <Plus size={20} /> Crear Pedido
                 </button>
             </div>
 
@@ -139,11 +141,11 @@ const Orders = () => {
                     onChange={(e) => setStatusFilter(e.target.value)}
                     style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                 >
-                    <option value="">All Statuses</option>
-                    <option value="pending">Pending</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                    <option value="delivered">Delivered</option>
+                    <option value="">Todos los Estados</option>
+                    <option value="pending">Pendiente</option>
+                    <option value="in_progress">En Progreso</option>
+                    <option value="completed">Completado</option>
+                    <option value="delivered">Entregado</option>
                 </select>
             </div>
 
@@ -161,22 +163,22 @@ const Orders = () => {
                     onClick={() => setPage(p => p - 1)}
                     style={{ padding: '5px 10px', cursor: 'pointer', disabled: page === 1 }}
                 >
-                    Previous
+                    Anterior
                 </button>
-                <span style={{ padding: '5px' }}>Page {page} of {totalPages || 1}</span>
+                <span style={{ padding: '5px' }}>Página {page} de {totalPages || 1}</span>
                 <button
                     disabled={page >= totalPages}
                     onClick={() => setPage(p => p + 1)}
                     style={{ padding: '5px 10px', cursor: 'pointer', disabled: page >= totalPages }}
                 >
-                    Next
+                    Siguiente
                 </button>
             </div>
 
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title={editingOrder ? "Edit Order" : "Create Order"}
+                title={editingOrder ? "Editar Pedido" : "Crear Pedido"}
             >
                 <OrderForm
                     order={editingOrder}

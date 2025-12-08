@@ -42,10 +42,10 @@ const OrderForm = ({ order, onSave, onCancel }) => {
 
     const validate = () => {
         const newErrors = {};
-        if (!formData.customer_id) newErrors.customer_id = 'Customer is required';
-        if (!formData.furniture_type) newErrors.furniture_type = 'Required';
-        if (!formData.description) newErrors.description = 'Required';
-        if (!formData.agreed_price) newErrors.agreed_price = 'Required';
+        if (!formData.customer_id) newErrors.customer_id = 'Cliente es requerido';
+        if (!formData.furniture_type) newErrors.furniture_type = 'Requerido';
+        if (!formData.description) newErrors.description = 'Requerido';
+        if (!formData.agreed_price) newErrors.agreed_price = 'Requerido';
         if (order && !formData.status) newErrors.status = 'Required';
         return newErrors;
     };
@@ -71,7 +71,7 @@ const OrderForm = ({ order, onSave, onCancel }) => {
     return (
         <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>Customer</label>
+                <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>Cliente</label>
                 <select
                     name="customer_id"
                     value={formData.customer_id}
@@ -79,7 +79,7 @@ const OrderForm = ({ order, onSave, onCancel }) => {
                     style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                     disabled={!!order} // Prevent changing customer on edit for simplicity
                 >
-                    <option value="">Select Customer</option>
+                    <option value="">Seleccionar Cliente</option>
                     {customers.map(c => (
                         <option key={c.id} value={c.id}>{c.full_name} ({c.identity_document})</option>
                     ))}
@@ -88,7 +88,7 @@ const OrderForm = ({ order, onSave, onCancel }) => {
             </div>
 
             <FormInput
-                label="Furniture Type"
+                label="Tipo de Mueble"
                 name="furniture_type"
                 value={formData.furniture_type}
                 onChange={handleChange}
@@ -97,7 +97,7 @@ const OrderForm = ({ order, onSave, onCancel }) => {
             />
 
             <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>Description</label>
+                <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>Descripción</label>
                 <textarea
                     name="description"
                     value={formData.description}
@@ -111,7 +111,7 @@ const OrderForm = ({ order, onSave, onCancel }) => {
             <div style={{ display: 'flex', gap: '20px' }}>
                 <div style={{ flex: 1 }}>
                     <FormInput
-                        label="Agreed Price"
+                        label="Precio Acordado"
                         name="agreed_price"
                         type="number"
                         value={formData.agreed_price}
@@ -122,7 +122,7 @@ const OrderForm = ({ order, onSave, onCancel }) => {
                 </div>
                 <div style={{ flex: 1 }}>
                     <FormInput
-                        label="Estimated Delivery"
+                        label="Fecha Estimada de Entrega"
                         name="estimated_delivery"
                         type="date"
                         value={formData.estimated_delivery}
@@ -133,17 +133,17 @@ const OrderForm = ({ order, onSave, onCancel }) => {
 
             {order && (
                 <div style={{ marginBottom: '16px' }}>
-                    <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>Status</label>
+                    <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>Estado</label>
                     <select
                         name="status"
                         value={formData.status}
                         onChange={handleChange}
                         style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                     >
-                        <option value="pending">Pending</option>
-                        <option value="in_progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                        <option value="delivered">Delivered</option>
+                        <option value="pending">Pendiente</option>
+                        <option value="in_progress">En Progreso</option>
+                        <option value="completed">Completado</option>
+                        <option value="delivered">Entregado</option>
                     </select>
                 </div>
             )}
@@ -154,13 +154,13 @@ const OrderForm = ({ order, onSave, onCancel }) => {
                     onClick={onCancel}
                     style={{ padding: '8px 16px', backgroundColor: '#e0e0e0', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
                 >
-                    Cancel
+                    Cancelar
                 </button>
                 <button
                     type="submit"
                     style={{ padding: '8px 16px', backgroundColor: '#8B4513', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
                 >
-                    {order ? 'Update Order' : 'Create Order'}
+                    {order ? 'Actualizar Pedido' : 'Crear Pedido'}
                 </button>
             </div>
         </form>

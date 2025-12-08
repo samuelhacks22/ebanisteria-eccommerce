@@ -23,7 +23,7 @@ const Navigation = ({ toggleSidebar }) => {
                         cursor: 'pointer'
                     }}
                 >
-                    <LogOut size={18} /> Logout
+                    <LogOut size={18} /> Cerrar Sesión
                 </button>
             </div>
         </header>

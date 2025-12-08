@@ -44,15 +44,15 @@ const Dashboard = () => {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1 style={{ marginBottom: '20px', color: '#333' }}>Dashboard</h1>
-            <p style={{ marginBottom: '30px', color: '#666' }}>Welcome back, <strong>{user?.full_name}</strong>!</p>
+            <h1 style={{ marginBottom: '20px', color: '#333' }}>Panel Principal</h1>
+            <p style={{ marginBottom: '30px', color: '#666' }}>¡Bienvenido de nuevo, <strong>{user?.full_name}</strong>!</p>
 
             {/* Stats Grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
-                <StatCard title="Pending Orders" value={dashboardData.stats.pending} icon={Clock} color="#FF9800" />
-                <StatCard title="In Progress" value={dashboardData.stats.in_progress} icon={Package} color="#2196F3" />
-                <StatCard title="Completed" value={dashboardData.stats.completed} icon={CheckCircle} color="#4CAF50" />
-                <StatCard title="Low Stock Materials" value={dashboardData.stats.low_stock} icon={AlertTriangle} color="#F44336" />
+                <StatCard title="Pedidos Pendientes" value={dashboardData.stats.pending} icon={Clock} color="#FF9800" />
+                <StatCard title="En Progreso" value={dashboardData.stats.in_progress} icon={Package} color="#2196F3" />
+                <StatCard title="Completados" value={dashboardData.stats.completed} icon={CheckCircle} color="#4CAF50" />
+                <StatCard title="Stock Bajo" value={dashboardData.stats.low_stock} icon={AlertTriangle} color="#F44336" />
             </div>
 
             {/* Main Content Info */}
@@ -60,16 +60,16 @@ const Dashboard = () => {
 
                 {/* Recent Orders */}
                 <div>
-                    <SectionHeader title="Recent Orders" />
+                    <SectionHeader title="Pedidos Recientes" />
                     <div style={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #ddd', overflow: 'hidden' }}>
                         {dashboardData.recent_orders.length > 0 ? (
                             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                                 <thead style={{ backgroundColor: '#f9f9f9', borderBottom: '1px solid #eee' }}>
                                     <tr>
-                                        <th style={{ padding: '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Order #</th>
-                                        <th style={{ padding: '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Customer</th>
-                                        <th style={{ padding: '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Status</th>
-                                        <th style={{ padding: '12px', textAlign: 'right', fontSize: '0.9rem', color: '#666' }}>Amount</th>
+                                        <th style={{ padding: '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Pedido #</th>
+                                        <th style={{ padding: '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Cliente</th>
+                                        <th style={{ padding: '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Estado</th>
+                                        <th style={{ padding: '12px', textAlign: 'right', fontSize: '0.9rem', color: '#666' }}>Monto</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,7 +91,9 @@ const Dashboard = () => {
                                                             order.status === 'in_progress' ? '#1565C0' :
                                                                 order.status === 'delivered' ? '#7B1FA2' : '#E65100'
                                                 }}>
-                                                    {order.status.replace('_', ' ')}
+                                                    {order.status === 'pending' ? 'Pendiente' :
+                                                        order.status === 'in_progress' ? 'En Progreso' :
+                                                            order.status === 'completed' ? 'Completado' : 'Entregado'}
                                                 </span>
                                             </td>
                                             <td style={{ padding: '12px', textAlign: 'right' }}>${order.agreed_price}</td>
@@ -100,14 +102,14 @@ const Dashboard = () => {
                                 </tbody>
                             </table>
                         ) : (
-                            <p style={{ padding: '20px', textAlign: 'center', color: '#999', margin: 0 }}>No recent orders</p>
+                            <p style={{ padding: '20px', textAlign: 'center', color: '#999', margin: 0 }}>No hay pedidos recientes</p>
                         )}
                     </div>
                 </div>
 
                 {/* Upcoming Deliveries */}
                 <div>
-                    <SectionHeader title="Upcoming Deliveries (7 Days)" />
+                    <SectionHeader title="Próximas Entregas (7 Días)" />
                     <div style={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #ddd', overflow: 'hidden' }}>
                         {dashboardData.upcoming_deliveries.length > 0 ? (
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -138,13 +140,15 @@ const Dashboard = () => {
                                         </div>
                                         <div>
                                             <p style={{ margin: '0 0 4px 0', fontWeight: 'bold', color: '#333' }}>#{delivery.order_number} - {delivery.customer_name}</p>
-                                            <p style={{ margin: 0, fontSize: '0.9rem', color: '#666' }}>Status: {delivery.status.replace('_', ' ')}</p>
+                                            <p style={{ margin: 0, fontSize: '0.9rem', color: '#666' }}>Estado: {delivery.status === 'pending' ? 'Pendiente' :
+                                                delivery.status === 'in_progress' ? 'En Progreso' :
+                                                    delivery.status === 'completed' ? 'Completado' : 'Entregado'}</p>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <p style={{ padding: '20px', textAlign: 'center', color: '#999', margin: 0 }}>No upcoming deliveries</p>
+                            <p style={{ padding: '20px', textAlign: 'center', color: '#999', margin: 0 }}>No hay entregas próximas</p>
                         )}
                     </div>
                 </div>
@@ -152,10 +156,10 @@ const Dashboard = () => {
             </div>
 
             <div style={{ marginTop: '40px' }}>
-                <h2 style={{ fontSize: '1.2rem', marginBottom: '15px' }}>Quick Actions</h2>
+                <h2 style={{ fontSize: '1.2rem', marginBottom: '15px' }}>Acciones Rápidas</h2>
                 <div style={{ display: 'flex', gap: '15px' }}>
-                    <a href="/customers" style={{ textDecoration: 'none', backgroundColor: '#8B4513', color: 'white', padding: '10px 20px', borderRadius: '4px' }}>Manage Customers</a>
-                    <a href="/orders" style={{ textDecoration: 'none', backgroundColor: '#D2691E', color: 'white', padding: '10px 20px', borderRadius: '4px' }}>Create Order</a>
+                    <a href="/customers" style={{ textDecoration: 'none', backgroundColor: '#8B4513', color: 'white', padding: '10px 20px', borderRadius: '4px' }}>Gestionar Clientes</a>
+                    <a href="/orders" style={{ textDecoration: 'none', backgroundColor: '#D2691E', color: 'white', padding: '10px 20px', borderRadius: '4px' }}>Crear Pedido</a>
                 </div>
             </div>
         </div>

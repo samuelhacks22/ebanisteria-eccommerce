@@ -49,7 +49,7 @@ const Materials = () => {
     };
 
     const handleDelete = async (material) => {
-        if (window.confirm('Are you sure you want to delete this material?')) {
+        if (window.confirm('¿Estás seguro de que deseas eliminar este material?')) {
             try {
                 await api.delete(`/materials/${material.id}`);
                 setRefreshTrigger(prev => prev + 1);
@@ -71,21 +71,21 @@ const Materials = () => {
             setRefreshTrigger(prev => prev + 1);
         } catch (error) {
             console.error('Error saving material:', error);
-            alert(error.response?.data?.error || 'Failed to save material');
+            alert(error.response?.data?.error || 'Error al guardar material');
         }
     };
 
     const columns = [
-        { header: 'Name', accessor: 'name' },
-        { header: 'Category', accessor: 'category', render: (row) => row.category.charAt(0).toUpperCase() + row.category.slice(1) },
-        { header: 'Unit', accessor: 'unit' },
+        { header: 'Nombre', accessor: 'name' },
+        { header: 'Categoría', accessor: 'category', render: (row) => row.category.charAt(0).toUpperCase() + row.category.slice(1) },
+        { header: 'Unidad', accessor: 'unit' },
         {
             header: 'Stock',
             accessor: 'current_stock',
             render: (row) => (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                     {parseFloat(row.current_stock) <= parseFloat(row.min_stock_alert) && (
-                        <AlertTriangle size={16} color="#F44336" title="Low Stock" />
+                        <AlertTriangle size={16} color="#F44336" title="Stock Bajo" />
                     )}
                     <span style={{
                         color: parseFloat(row.current_stock) <= parseFloat(row.min_stock_alert) ? '#F44336' : 'inherit',
@@ -96,13 +96,13 @@ const Materials = () => {
                 </div>
             )
         },
-        { header: 'Unit Cost', accessor: 'unit_cost', render: (row) => row.unit_cost ? `$${row.unit_cost}` : '-' }
+        { header: 'Costo Unitario', accessor: 'unit_cost', render: (row) => row.unit_cost ? `$${row.unit_cost}` : '-' }
     ];
 
     return (
         <div style={{ padding: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h1 style={{ margin: 0, color: '#333' }}>Materials Inventory</h1>
+                <h1 style={{ margin: 0, color: '#333' }}>Inventario de Materiales</h1>
                 <button
                     onClick={handleAdd}
                     style={{
@@ -117,7 +117,7 @@ const Materials = () => {
                         cursor: 'pointer'
                     }}
                 >
-                    <Plus size={20} /> Add Material
+                    <Plus size={20} /> Agregar Material
                 </button>
             </div>
 
@@ -127,7 +127,7 @@ const Materials = () => {
                     onChange={(e) => setCategoryFilter(e.target.value)}
                     style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                 >
-                    <option value="">All Categories</option>
+                    <option value="">Todas las Categorías</option>
                     <option value="madera">Madera</option>
                     <option value="pintura">Pintura</option>
                     <option value="herrajes">Herrajes</option>
@@ -140,7 +140,7 @@ const Materials = () => {
                         checked={lowStockFilter}
                         onChange={(e) => setLowStockFilter(e.target.checked)}
                     />
-                    Show Low Stock Only
+                    Ver solo stock bajo
                 </label>
             </div>
 
@@ -158,22 +158,22 @@ const Materials = () => {
                     onClick={() => setPage(p => p - 1)}
                     style={{ padding: '5px 10px', cursor: 'pointer', disabled: page === 1 }}
                 >
-                    Previous
+                    Anterior
                 </button>
-                <span style={{ padding: '5px' }}>Page {page} of {totalPages || 1}</span>
+                <span style={{ padding: '5px' }}>Página {page} de {totalPages || 1}</span>
                 <button
                     disabled={page >= totalPages}
                     onClick={() => setPage(p => p + 1)}
                     style={{ padding: '5px 10px', cursor: 'pointer', disabled: page >= totalPages }}
                 >
-                    Next
+                    Siguiente
                 </button>
             </div>
 
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title={editingMaterial ? "Edit Material" : "Add Material"}
+                title={editingMaterial ? "Editar Material" : "Agregar Material"}
             >
                 <MaterialForm
                     material={editingMaterial}

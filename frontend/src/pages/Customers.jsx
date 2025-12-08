@@ -54,13 +54,13 @@ const Customers = () => {
     };
 
     const handleDelete = async (customer) => {
-        if (window.confirm('Are you sure you want to delete this customer?')) {
+        if (window.confirm('¿Estás seguro de que deseas eliminar este cliente?')) {
             try {
                 await api.delete(`/customers/${customer.id}`);
                 setRefreshTrigger(prev => prev + 1);
             } catch (error) {
                 console.error('Error deleting customer:', error);
-                alert('Failed to delete customer');
+                alert('Error al eliminar cliente');
             }
         }
     };
@@ -76,22 +76,22 @@ const Customers = () => {
             setRefreshTrigger(prev => prev + 1);
         } catch (error) {
             console.error('Error saving customer:', error);
-            alert(error.response?.data?.error || 'Failed to save customer');
+            alert(error.response?.data?.error || 'Error al guardar cliente');
         }
     };
 
     const columns = [
-        { header: 'Identity Doc', accessor: 'identity_document' },
-        { header: 'Full Name', accessor: 'full_name' },
-        { header: 'Phone', accessor: 'phone' },
+        { header: 'Documento', accessor: 'identity_document' },
+        { header: 'Nombre Completo', accessor: 'full_name' },
+        { header: 'Teléfono', accessor: 'phone' },
         { header: 'Email', accessor: 'email' },
-        { header: 'Address', accessor: 'address', render: (row) => row.address ? row.address.substring(0, 30) + '...' : '' }
+        { header: 'Dirección', accessor: 'address', render: (row) => row.address ? row.address.substring(0, 30) + '...' : '' }
     ];
 
     return (
         <div style={{ padding: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h1 style={{ margin: 0, color: '#333' }}>Customers</h1>
+                <h1 style={{ margin: 0, color: '#333' }}>Clientes</h1>
                 <button
                     onClick={handleAdd}
                     style={{
@@ -106,14 +106,14 @@ const Customers = () => {
                         cursor: 'pointer'
                     }}
                 >
-                    <Plus size={20} /> Add Customer
+                    <Plus size={20} /> Nuevo Cliente
                 </button>
             </div>
 
             <div style={{ marginBottom: '20px', position: 'relative', maxWidth: '400px' }}>
                 <input
                     type="text"
-                    placeholder="Search customers..."
+                    placeholder="Buscar clientes..."
                     value={search}
                     onChange={handleSearchChange}
                     style={{
@@ -141,22 +141,22 @@ const Customers = () => {
                     onClick={() => setPage(p => p - 1)}
                     style={{ padding: '5px 10px', cursor: 'pointer', disabled: page === 1 }}
                 >
-                    Previous
+                    Anterior
                 </button>
-                <span style={{ padding: '5px' }}>Page {page} of {totalPages || 1}</span>
+                <span style={{ padding: '5px' }}>Página {page} de {totalPages || 1}</span>
                 <button
                     disabled={page >= totalPages}
                     onClick={() => setPage(p => p + 1)}
                     style={{ padding: '5px 10px', cursor: 'pointer', disabled: page >= totalPages }}
                 >
-                    Next
+                    Siguiente
                 </button>
             </div>
 
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title={editingCustomer ? "Edit Customer" : "Add Customer"}
+                title={editingCustomer ? "Editar Cliente" : "Nuevo Cliente"}
             >
                 <CustomerForm
                     customer={editingCustomer}
