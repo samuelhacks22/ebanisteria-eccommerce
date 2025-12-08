@@ -58,6 +58,8 @@ const validateEmail = (email) => {
 };
 
 exports.register = async (req, res) => {
+    console.log('--- Register Request Received ---');
+    console.log('Body:', req.body);
     try {
         const { username, email, password, full_name, role } = req.body;
 
