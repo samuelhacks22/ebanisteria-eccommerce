@@ -48,24 +48,41 @@ exports.login = async (req, res) => {
     }
 };
 
+// Helper for email validation
+const validateEmail = (email) => {
+    return String(email)
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+};
+
 exports.register = async (req, res) => {
     try {
         const { username, email, password, full_name, role } = req.body;
 
-        // Basic validation
+        // Validation
         if (!username || !email || !password || !full_name) {
-            return res.status(400).json({ success: false, error: 'All fields are required' });
+            return res.status(400).json({ success: false, error: 'Todos los campos son obligatorios' });
+        }
+
+        if (!validateEmail(email)) {
+            return res.status(400).json({ success: false, error: 'Formato de email inválido' });
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({ success: false, error: 'La contraseña debe tener al menos 6 caracteres' });
         }
 
         // Check if exists
         const existingUser = await User.findByUsername(username);
         if (existingUser) {
-            return res.status(400).json({ success: false, error: 'Username already exists' });
+            return res.status(400).json({ success: false, error: 'El nombre de usuario ya está en uso' });
         }
 
         const existingEmail = await User.findByEmail(email);
         if (existingEmail) {
-            return res.status(400).json({ success: false, error: 'Email already exists' });
+            return res.status(400).json({ success: false, error: 'El email ya está registrado' });
         }
 
         const newUser = await User.create({ username, email, password, full_name, role });

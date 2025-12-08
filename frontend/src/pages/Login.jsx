@@ -25,7 +25,7 @@ const Login = () => {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f5f5f5' }}>
             <div style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px' }}>
                 <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                    <h1 style={{ color: '#8B4513', margin: 0 }}>Ebanistería</h1>
+                    <h1 style={{ color: '#8B4513', margin: 0 }}>Ebanistería Madera</h1>
                     <p style={{ color: '#666' }}>Sistema de Gestión</p>
                 </div>
 

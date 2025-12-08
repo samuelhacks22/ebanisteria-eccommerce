@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen }) => {
                     <Hammer size={18} color="white" />
                 </div>
                 <div>
-                    <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold', margin: 0, lineHeight: 1 }}>Ebanistería</h2>
+                    <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold', margin: 0, lineHeight: 1 }}>Ebanistería Madera</h2>
                     <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>Gestión Pro</span>
                 </div>
             </div>
