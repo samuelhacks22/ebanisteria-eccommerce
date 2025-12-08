@@ -27,25 +27,41 @@ const Dashboard = () => {
     }, []);
 
     const StatCard = ({ title, value, icon: Icon, color }) => (
-        <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', border: '1px solid #ddd', display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <div style={{ padding: '12px', borderRadius: '50%', backgroundColor: `${color}20`, color: color }}>
-                <Icon size={24} />
+        <div style={{
+            backgroundColor: 'var(--surface)',
+            padding: '24px',
+            borderRadius: '12px',
+            border: '1px solid var(--border)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '20px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+        }}>
+            <div style={{ padding: '12px', borderRadius: '10px', backgroundColor: `${color}15`, color: color }}>
+                <Icon size={28} />
             </div>
             <div>
-                <h3 style={{ margin: '0 0 5px 0', fontSize: '0.9rem', color: '#666' }}>{title}</h3>
-                <p style={{ margin: 0, fontSize: '1.5rem', fontWeight: 'bold', color: '#333' }}>{value}</p>
+                <h3 style={{ margin: '0 0 4px 0', fontSize: '0.85rem', color: 'var(--text-light)', fontWeight: 500 }}>{title}</h3>
+                <p style={{ margin: 0, fontSize: '1.75rem', fontWeight: '700', color: 'var(--text-main)' }}>{value}</p>
             </div>
         </div>
     );
 
     const SectionHeader = ({ title }) => (
-        <h2 style={{ fontSize: '1.2rem', margin: '30px 0 15px', color: '#333', borderBottom: '2px solid #8B4513', paddingBottom: '10px', display: 'inline-block' }}>{title}</h2>
+        <h2 style={{
+            fontSize: '1.25rem',
+            margin: '0 0 0',
+            color: 'var(--text-main)',
+            fontWeight: 700
+        }}>{title}</h2>
     );
 
     return (
-        <div style={{ padding: '20px' }}>
-            <h1 style={{ marginBottom: '20px', color: '#333' }}>Panel Principal</h1>
-            <p style={{ marginBottom: '30px', color: '#666' }}>¡Bienvenido de nuevo, <strong>{user?.full_name}</strong>!</p>
+        <div style={{ padding: '30px', maxWidth: '1600px', margin: '0 auto', width: '100%' }}>
+            <div style={{ marginBottom: '30px' }}>
+                <h1 style={{ marginBottom: '8px', color: 'var(--text-main)' }}>Panel Principal</h1>
+                <p style={{ color: 'var(--text-light)', marginTop: 0 }}>¡Bienvenido de nuevo, <strong style={{ color: 'var(--primary)' }}>{user?.full_name}</strong>!</p>
+            </div>
 
             {/* Stats Grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
@@ -60,11 +76,14 @@ const Dashboard = () => {
 
                 {/* Recent Orders */}
                 <div>
-                    <SectionHeader title="Pedidos Recientes" />
-                    <div style={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #ddd', overflow: 'hidden' }}>
+                    <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <SectionHeader title="Pedidos Recientes" />
+                        <a href="/orders" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Ver Todos &rarr;</a>
+                    </div>
+                    <div style={{ backgroundColor: 'var(--surface)', borderRadius: '12px', border: '1px solid var(--border)', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                         {dashboardData.recent_orders.length > 0 ? (
                             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                                <thead style={{ backgroundColor: '#f9f9f9', borderBottom: '1px solid #eee' }}>
+                                <thead style={{ backgroundColor: 'var(--bg-light)', borderBottom: '1px solid var(--border)' }}>
                                     <tr>
                                         <th style={{ padding: '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Pedido #</th>
                                         <th style={{ padding: '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Cliente</th>
@@ -74,7 +93,7 @@ const Dashboard = () => {
                                 </thead>
                                 <tbody>
                                     {dashboardData.recent_orders.map((order, i) => (
-                                        <tr key={order.id} style={{ borderBottom: i < dashboardData.recent_orders.length - 1 ? '1px solid #eee' : 'none' }}>
+                                        <tr key={order.id} style={{ borderBottom: i < dashboardData.recent_orders.length - 1 ? '1px solid var(--border)' : 'none' }}>
                                             <td style={{ padding: '12px', fontWeight: '500' }}>#{order.order_number}</td>
                                             <td style={{ padding: '12px' }}>{order.customer_name}</td>
                                             <td style={{ padding: '12px' }}>
@@ -109,17 +128,19 @@ const Dashboard = () => {
 
                 {/* Upcoming Deliveries */}
                 <div>
-                    <SectionHeader title="Próximas Entregas (7 Días)" />
-                    <div style={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #ddd', overflow: 'hidden' }}>
+                    <div style={{ marginBottom: '16px' }}>
+                        <SectionHeader title="Próximas Entregas (7 Días)" />
+                    </div>
+                    <div style={{ backgroundColor: 'var(--surface)', borderRadius: '12px', border: '1px solid var(--border)', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                         {dashboardData.upcoming_deliveries.length > 0 ? (
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 {dashboardData.upcoming_deliveries.map((delivery, i) => (
                                     <div key={delivery.id} style={{
-                                        padding: '15px',
-                                        borderBottom: i < dashboardData.upcoming_deliveries.length - 1 ? '1px solid #eee' : 'none',
+                                        padding: '16px',
+                                        borderBottom: i < dashboardData.upcoming_deliveries.length - 1 ? '1px solid var(--border)' : 'none',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        gap: '15px'
+                                        gap: '20px'
                                     }}>
                                         <div style={{
                                             display: 'flex',
@@ -156,10 +177,26 @@ const Dashboard = () => {
             </div>
 
             <div style={{ marginTop: '40px' }}>
-                <h2 style={{ fontSize: '1.2rem', marginBottom: '15px' }}>Acciones Rápidas</h2>
+                <h2 style={{ fontSize: '1.2rem', marginBottom: '20px' }}>Acciones Rápidas</h2>
                 <div style={{ display: 'flex', gap: '15px' }}>
-                    <a href="/customers" style={{ textDecoration: 'none', backgroundColor: '#8B4513', color: 'white', padding: '10px 20px', borderRadius: '4px' }}>Gestionar Clientes</a>
-                    <a href="/orders" style={{ textDecoration: 'none', backgroundColor: '#D2691E', color: 'white', padding: '10px 20px', borderRadius: '4px' }}>Crear Pedido</a>
+                    <a href="/customers" style={{
+                        textDecoration: 'none',
+                        backgroundColor: 'var(--primary)',
+                        color: 'white',
+                        padding: '12px 24px',
+                        borderRadius: '8px',
+                        fontWeight: 500,
+                        boxShadow: '0 4px 6px rgba(139, 69, 19, 0.2)'
+                    }}>Gestionar Clientes</a>
+                    <a href="/orders" style={{
+                        textDecoration: 'none',
+                        backgroundColor: 'var(--secondary)',
+                        color: 'white',
+                        padding: '12px 24px',
+                        borderRadius: '8px',
+                        fontWeight: 500,
+                        boxShadow: '0 4px 6px rgba(210, 105, 30, 0.2)'
+                    }}>Crear Pedido</a>
                 </div>
             </div>
         </div>

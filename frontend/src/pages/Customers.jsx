@@ -89,21 +89,23 @@ const Customers = () => {
     ];
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '30px', maxWidth: '1600px', margin: '0 auto', width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h1 style={{ margin: 0, color: '#333' }}>Clientes</h1>
+                <h1 style={{ margin: 0, color: 'var(--text-main)' }}>Clientes</h1>
                 <button
                     onClick={handleAdd}
                     style={{
-                        backgroundColor: '#8B4513',
+                        backgroundColor: 'var(--primary)',
                         color: 'white',
                         padding: '10px 16px',
-                        borderRadius: '4px',
+                        borderRadius: '6px',
                         border: 'none',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        fontWeight: 500,
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                     }}
                 >
                     <Plus size={20} /> Nuevo Cliente
@@ -118,9 +120,9 @@ const Customers = () => {
                     onChange={handleSearchChange}
                     style={{
                         width: '100%',
-                        padding: '10px 10px 10px 35px',
-                        borderRadius: '4px',
-                        border: '1px solid #ccc',
+                        padding: '12px 12px 12px 40px',
+                        borderRadius: '8px',
+                        border: '1px solid var(--border)',
                         boxSizing: 'border-box'
                     }}
                 />

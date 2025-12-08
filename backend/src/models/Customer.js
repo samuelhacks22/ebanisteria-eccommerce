@@ -46,13 +46,19 @@ class Customer {
         return result.rows[0];
     }
 
-    static async update(id, { identity_document, full_name, phone, email, address }) {
+    static async update(id, updates) {
+        const fields = Object.keys(updates);
+        if (fields.length === 0) return null;
+
+        const setClause = fields.map((field, index) => `${field} = $${index + 2}`).join(', ');
+        const values = Object.values(updates);
+
         const result = await db.query(
             `UPDATE customers 
-             SET identity_document = $1, full_name = $2, phone = $3, email = $4, address = $5, updated_at = CURRENT_TIMESTAMP
-             WHERE id = $6
+             SET ${setClause}, updated_at = CURRENT_TIMESTAMP
+             WHERE id = $1
              RETURNING *`,
-            [identity_document, full_name, phone, email, address, id]
+            [id, ...values]
         );
         return result.rows[0];
     }

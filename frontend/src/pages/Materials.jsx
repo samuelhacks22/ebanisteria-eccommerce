@@ -100,32 +100,41 @@ const Materials = () => {
     ];
 
     return (
-        <div style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h1 style={{ margin: 0, color: '#333' }}>Inventario de Materiales</h1>
+        <div style={{ padding: '30px', maxWidth: '1600px', margin: '0 auto', width: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+                <h1 style={{ margin: 0, color: 'var(--text-main)' }}>Inventario de Materiales</h1>
                 <button
                     onClick={handleAdd}
                     style={{
-                        backgroundColor: '#8B4513',
+                        backgroundColor: 'var(--primary)',
                         color: 'white',
                         padding: '10px 16px',
-                        borderRadius: '4px',
+                        borderRadius: '6px',
                         border: 'none',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        fontWeight: 500,
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                     }}
                 >
                     <Plus size={20} /> Agregar Material
                 </button>
             </div>
 
-            <div style={{ marginBottom: '20px', display: 'flex', gap: '15px' }}>
+            <div style={{ marginBottom: '20px', display: 'flex', gap: '15px', alignItems: 'center' }}>
                 <select
                     value={categoryFilter}
                     onChange={(e) => setCategoryFilter(e.target.value)}
-                    style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                    style={{
+                        padding: '10px 16px',
+                        borderRadius: '8px',
+                        border: '1px solid var(--border)',
+                        backgroundColor: 'var(--surface)',
+                        color: 'var(--text-main)',
+                        fontSize: '0.95rem'
+                    }}
                 >
                     <option value="">Todas las Categorías</option>
                     <option value="madera">Madera</option>
@@ -134,11 +143,12 @@ const Materials = () => {
                     <option value="otros">Otros</option>
                 </select>
 
-                <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', userSelect: 'none', color: 'var(--text-main)' }}>
                     <input
                         type="checkbox"
                         checked={lowStockFilter}
                         onChange={(e) => setLowStockFilter(e.target.checked)}
+                        style={{ width: '16px', height: '16px', accentColor: 'var(--primary)' }}
                     />
                     Ver solo stock bajo
                 </label>

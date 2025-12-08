@@ -114,21 +114,23 @@ const Orders = () => {
     ];
 
     return (
-        <div style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h1 style={{ margin: 0, color: '#333' }}>Pedidos</h1>
+        <div style={{ padding: '30px', maxWidth: '1600px', margin: '0 auto', width: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+                <h1 style={{ margin: 0, color: 'var(--text-main)' }}>Pedidos</h1>
                 <button
                     onClick={handleAdd}
                     style={{
-                        backgroundColor: '#8B4513',
+                        backgroundColor: 'var(--secondary)',
                         color: 'white',
                         padding: '10px 16px',
-                        borderRadius: '4px',
+                        borderRadius: '6px',
                         border: 'none',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        fontWeight: 500,
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                     }}
                 >
                     <Plus size={20} /> Crear Pedido
@@ -139,7 +141,14 @@ const Orders = () => {
                 <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                    style={{
+                        padding: '10px 16px',
+                        borderRadius: '8px',
+                        border: '1px solid var(--border)',
+                        backgroundColor: 'var(--surface)',
+                        color: 'var(--text-main)',
+                        fontSize: '0.95rem'
+                    }}
                 >
                     <option value="">Todos los Estados</option>
                     <option value="pending">Pendiente</option>

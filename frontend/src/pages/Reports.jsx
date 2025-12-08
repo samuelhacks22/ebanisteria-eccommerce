@@ -90,33 +90,46 @@ const Reports = () => {
     ];
 
     const StatCard = ({ title, value, icon: Icon, color }) => (
-        <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '8px', border: '1px solid #ddd', display: 'flex', alignItems: 'center', gap: '15px', flex: 1 }}>
-            <div style={{ padding: '10px', borderRadius: '50%', backgroundColor: `${color}20`, color: color }}>
-                <Icon size={20} />
+        <div style={{
+            backgroundColor: 'var(--surface)',
+            padding: '24px',
+            borderRadius: '12px',
+            border: '1px solid var(--border)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '20px',
+            flex: 1,
+            minWidth: '250px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+        }}>
+            <div style={{ padding: '12px', borderRadius: '10px', backgroundColor: `${color}15`, color: color }}>
+                <Icon size={24} />
             </div>
             <div>
-                <p style={{ margin: '0 0 5px 0', fontSize: '0.8rem', color: '#666' }}>{title}</p>
-                <p style={{ margin: 0, fontSize: '1.2rem', fontWeight: 'bold' }}>{value}</p>
+                <p style={{ margin: '0 0 4px 0', fontSize: '0.85rem', color: 'var(--text-light)', fontWeight: 500 }}>{title}</p>
+                <p style={{ margin: 0, fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-main)' }}>{value}</p>
             </div>
         </div>
     );
 
     return (
-        <div style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h1 style={{ margin: 0, color: '#333' }}>Reportes</h1>
+        <div style={{ padding: '30px', maxWidth: '1600px', margin: '0 auto', width: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+                <h1 style={{ margin: 0, color: 'var(--text-main)' }}>Reportes</h1>
                 <button
                     onClick={handleExportCSV}
                     style={{
-                        backgroundColor: '#4CAF50',
+                        backgroundColor: 'var(--success)',
                         color: 'white',
                         padding: '10px 16px',
-                        borderRadius: '4px',
+                        borderRadius: '6px',
                         border: 'none',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        fontWeight: 500,
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                     }}
                 >
                     <Download size={18} /> Exportar CSV
@@ -124,23 +137,34 @@ const Reports = () => {
             </div>
 
             <div style={{ display: 'flex', gap: '20px', marginBottom: '30px', flexWrap: 'wrap' }}>
-                <StatCard title="Ingresos Totales" value={`$${reportData.summary.total_value.toFixed(2)}`} icon={DollarSign} color="#4CAF50" />
-                <StatCard title="Total Pedidos" value={reportData.summary.total_orders} icon={TrendingUp} color="#2196F3" />
-                <StatCard title="Valor Inventario" value={`$${(parseFloat(inventoryStats.total_value) || 0).toFixed(2)}`} icon={Package} color="#FF9800" />
+                <StatCard title="Ingresos Totales" value={`$${reportData.summary.total_value.toFixed(2)}`} icon={DollarSign} color="#10B981" />
+                <StatCard title="Total Pedidos" value={reportData.summary.total_orders} icon={TrendingUp} color="#3B82F6" />
+                <StatCard title="Valor Inventario" value={`$${(parseFloat(inventoryStats.total_value) || 0).toFixed(2)}`} icon={Package} color="#F59E0B" />
             </div>
 
-            <form onSubmit={handleApplyFilters} style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', border: '1px solid #ddd', marginBottom: '20px', display: 'flex', gap: '15px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+            <form onSubmit={handleApplyFilters} style={{
+                backgroundColor: 'var(--surface)',
+                padding: '24px',
+                borderRadius: '12px',
+                border: '1px solid var(--border)',
+                marginBottom: '30px',
+                display: 'flex',
+                gap: '20px',
+                alignItems: 'flex-end',
+                flexWrap: 'wrap',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+            }}>
                 <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '0.9rem', fontWeight: 600 }}>Fecha Inicio</label>
-                    <input type="date" name="start_date" value={filters.start_date} onChange={handleFilterChange} style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                    <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-light)' }}>Fecha Inicio</label>
+                    <input type="date" name="start_date" value={filters.start_date} onChange={handleFilterChange} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', color: 'var(--text-main)', backgroundColor: 'var(--bg-light)' }} />
                 </div>
                 <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '0.9rem', fontWeight: 600 }}>Fecha Fin</label>
-                    <input type="date" name="end_date" value={filters.end_date} onChange={handleFilterChange} style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                    <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-light)' }}>Fecha Fin</label>
+                    <input type="date" name="end_date" value={filters.end_date} onChange={handleFilterChange} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', color: 'var(--text-main)', backgroundColor: 'var(--bg-light)' }} />
                 </div>
                 <div>
-                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '0.9rem', fontWeight: 600 }}>Estado</label>
-                    <select name="status" value={filters.status} onChange={handleFilterChange} style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc', minWidth: '150px' }}>
+                    <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-light)' }}>Estado</label>
+                    <select name="status" value={filters.status} onChange={handleFilterChange} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', minWidth: '150px', color: 'var(--text-main)', backgroundColor: 'var(--bg-light)' }}>
                         <option value="">Todos</option>
                         <option value="pending">Pendiente</option>
                         <option value="in_progress">En Progreso</option>
@@ -148,7 +172,7 @@ const Reports = () => {
                         <option value="delivered">Entregado</option>
                     </select>
                 </div>
-                <button type="submit" style={{ padding: '9px 20px', backgroundColor: '#8B4513', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Aplicar Filtros</button>
+                <button type="submit" style={{ padding: '10px 24px', backgroundColor: 'var(--primary)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 500 }}>Aplicar Filtros</button>
             </form>
 
             <DataTable
