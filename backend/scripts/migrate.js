@@ -23,12 +23,32 @@ const pool = new Pool({
 
 async function migrate() {
     try {
+        // PRE-CHECK
+        console.log('--- PRE-MIGRATION CHECK ---');
+        const preCheck = await pool.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+        console.log('Existing tables:', preCheck.rows.map(r => r.table_name));
+
         const schemaPath = path.join(__dirname, '../../database/schema.sql');
         const schemaSql = fs.readFileSync(schemaPath, 'utf8');
 
         console.log('Running migration...');
+        // Execute schema SQL
         await pool.query(schemaSql);
-        console.log('Migration completed successfully.');
+        console.log('Schema executed.');
+
+        // POST-CHECK
+        console.log('--- POST-MIGRATION CHECK ---');
+        const postCheck = await pool.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+        console.log('Tables after migration:', postCheck.rows.map(r => r.table_name));
+
+        // Validation
+        const expectedTables = ['users', 'customers', 'materials', 'orders', 'order_materials'];
+        const foundTables = postCheck.rows.map(r => r.table_name);
+        if (!expectedTables.every(t => foundTables.includes(t))) {
+            console.error('CRITICAL: Some tables are missing after migration!', expectedTables.filter(t => !foundTables.includes(t)));
+        } else {
+            console.log('All expected tables found.');
+        }
 
         // Seed Admin if not exists
         const adminCheck = await pool.query("SELECT * FROM users WHERE username = 'admin'");

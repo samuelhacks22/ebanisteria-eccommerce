@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
-const { verifyToken, isAdmin } = require('../middleware/authMiddleware');
+const { auth } = require('../middleware/auth');
 
 router.post('/login', authController.login);
-router.post('/register', verifyToken, isAdmin, authController.register); // Admin only 
-
-router.get('/me', verifyToken, authController.getMe);
+router.post('/register', authController.register);
+router.get('/me', auth, authController.getMe);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { LogIn } from 'lucide-react';
 
 const Login = () => {
@@ -58,6 +58,9 @@ const Login = () => {
                     >
                         <LogIn size={18} /> Iniciar Sesión
                     </button>
+                    <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+                        <Link to="/register" style={{ color: '#8B4513', textDecoration: 'none' }}>¿No tienes cuenta? Regístrate</Link>
+                    </div>
                 </form>
             </div>
         </div>
