@@ -57,29 +57,6 @@ const Reports = () => {
         fetchReports();
     };
 
-    const handleExportCSV = () => {
-        const headers = ['Pedido #', 'Cliente', 'Fecha', 'Monto', 'Estado'];
-        const rows = reportData.orders.map(o => [
-            o.order_number,
-            o.customer_name,
-            new Date(o.created_at).toLocaleDateString(),
-            o.agreed_price,
-            o.status
-        ]);
-
-        const csvContent = "data:text/csv;charset=utf-8,"
-            + headers.join(",") + "\n"
-            + rows.map(e => e.join(",")).join("\n");
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "orders_report.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
-
     const handleExportPDF = async () => {
         try {
             const params = {};
@@ -147,12 +124,6 @@ const Reports = () => {
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-xl md:text-2xl m-0">Reportes</h1>
                 <div className="flex gap-2">
-                    <button
-                        onClick={handleExportCSV}
-                        className="btn btn-outline"
-                    >
-                        <Download size={18} /> <span className="hidden md:inline">CSV</span>
-                    </button>
                     <button
                         onClick={handleExportPDF}
                         className="btn btn-primary"
