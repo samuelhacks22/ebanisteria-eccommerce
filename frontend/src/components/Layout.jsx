@@ -11,12 +11,14 @@ const Layout = () => {
     };
 
     return (
-        <div style={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden', backgroundColor: 'var(--bg-light)' }}>
+        <div className="flex h-screen w-full overflow-hidden bg-body">
             <Sidebar isOpen={isSidebarOpen} />
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            <div className="flex flex-col flex-1 overflow-hidden relative">
                 <Navigation toggleSidebar={toggleSidebar} />
-                <main style={{ flex: 1, overflowY: 'auto', padding: '0' }}>
-                    <Outlet />
+                <main className="flex-1 overflow-y-auto p-6 transition-all">
+                    <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+                        <Outlet />
+                    </div>
                 </main>
             </div>
         </div>

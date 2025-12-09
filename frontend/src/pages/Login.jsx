@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { LogIn } from 'lucide-react';
+import { LogIn, Hammer } from 'lucide-react';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -22,44 +22,63 @@ const Login = () => {
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f5f5f5' }}>
-            <div style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px' }}>
-                <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                    <h1 style={{ color: '#8B4513', margin: 0 }}>Ebanistería Madera</h1>
-                    <p style={{ color: '#666' }}>Sistema de Gestión</p>
+        <div className="login-container">
+            <div className="login-card">
+                <div className="login-header">
+                    <div className="login-logo">
+                        <Hammer size={28} />
+                    </div>
+                    <h1>Ebanistería Madera</h1>
+                    <p style={{ color: 'var(--text-secondary)' }}>Sistema de Gestión Profesional</p>
                 </div>
 
-                {error && <div style={{ backgroundColor: '#FFEBEE', color: '#F44336', padding: '10px', borderRadius: '4px', marginBottom: '1rem', border: '1px solid #F44336' }}>{error}</div>}
+                {error && (
+                    <div style={{
+                        backgroundColor: 'var(--danger-bg)',
+                        color: 'var(--danger)',
+                        padding: '0.75rem',
+                        borderRadius: '0.5rem',
+                        marginBottom: '1.5rem',
+                        fontSize: '0.9rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        {error}
+                    </div>
+                )}
 
                 <form onSubmit={handleSubmit}>
-                    <div style={{ marginBottom: '1rem' }}>
-                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Usuario</label>
+                    <div className="form-group">
+                        <label className="form-label">Usuario</label>
                         <input
                             type="text"
+                            className="form-input"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc', boxSizing: 'border-box' }}
                             required
+                            placeholder="Ingrese su usuario"
                         />
                     </div>
-                    <div style={{ marginBottom: '1.5rem' }}>
-                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Contraseña</label>
+                    <div className="form-group" style={{ marginBottom: '2rem' }}>
+                        <label className="form-label">Contraseña</label>
                         <input
                             type="password"
+                            className="form-input"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc', boxSizing: 'border-box' }}
                             required
+                            placeholder="Ingrese su contraseña"
                         />
                     </div>
-                    <button
-                        type="submit"
-                        style={{ width: '100%', padding: '10px', backgroundColor: '#8B4513', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}
-                    >
+                    <button type="submit" className="btn btn-primary w-full-btn">
                         <LogIn size={18} /> Iniciar Sesión
                     </button>
-                    <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-                        <Link to="/register" style={{ color: '#8B4513', textDecoration: 'none' }}>¿No tienes cuenta? Regístrate</Link>
+
+                    <div className="mt-4" style={{ textAlign: 'center' }}>
+                        <Link to="/register" style={{ fontSize: '0.9rem', fontWeight: '500' }}>
+                            ¿No tienes cuenta? <span style={{ color: 'var(--primary)', fontWeight: '600' }}>Regístrate</span>
+                        </Link>
                     </div>
                 </form>
             </div>
