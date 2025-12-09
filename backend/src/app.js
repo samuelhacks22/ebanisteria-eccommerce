@@ -25,8 +25,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Basic Route
-app.get('/', (req, res) => {
+// Basic Route - Moved to /api
+app.get('/api', (req, res) => {
     res.json({ message: 'Carpentry Workshop API is running' });
 });
 
