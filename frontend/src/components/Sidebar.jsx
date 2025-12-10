@@ -2,11 +2,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { Home, Users, ClipboardList, Hammer, FileText, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = ({ isOpen, isMobile, onClose }) => {
     const location = useLocation();
     const { user } = useAuth();
-
-    // Mobile responsiveness logic could happen here, but for now we trust isOpen prop
 
     const menuItems = [
         { path: '/', label: 'Panel Principal', icon: <Home size={20} /> },
@@ -16,9 +14,16 @@ const Sidebar = ({ isOpen }) => {
         { path: '/reports', label: 'Reportes', icon: <FileText size={20} /> },
     ];
 
+    const handleLinkClick = () => {
+        // Close sidebar on mobile when a link is clicked
+        if (isMobile && onClose) {
+            onClose();
+        }
+    };
+
     return (
         <div
-            className="sidebar"
+            className={`sidebar ${isMobile && isOpen ? 'mobile-open' : ''}`}
             style={{ width: isOpen ? '280px' : '0', opacity: isOpen ? 1 : 0 }}
         >
             <div className="sidebar-header">
@@ -49,6 +54,7 @@ const Sidebar = ({ isOpen }) => {
                             key={item.path}
                             to={item.path}
                             className={`sidebar-link ${isActive ? 'active' : ''}`}
+                            onClick={handleLinkClick}
                         >
                             <span style={{ marginRight: '12px', display: 'flex' }}>{item.icon}</span>
                             <span style={{ flex: 1 }}>{item.label}</span>

@@ -10,12 +10,13 @@ const Navigation = ({ toggleSidebar }) => {
                 onClick={toggleSidebar}
                 className="btn btn-ghost btn-icon"
                 title="Toggle Sidebar"
+                aria-label="Toggle Menu"
             >
                 <Menu size={24} />
             </button>
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-3 text-right">
-                    <div className="block">
+                    <div className="block" style={{ display: window.innerWidth < 480 ? 'none' : 'block' }}>
                         <span className="block text-sm font-semibold text-main">
                             {user?.full_name}
                         </span>
@@ -38,8 +39,10 @@ const Navigation = ({ toggleSidebar }) => {
 
                 <button
                     onClick={logout}
-                    className="btn btn-danger-outline p-2"
+                    className="btn btn-danger-outline"
+                    style={{ padding: '0.5rem' }}
                     title="Cerrar Sesión"
+                    aria-label="Logout"
                 >
                     <LogOut size={18} /> <span className="hidden md:inline">Salir</span>
                 </button>

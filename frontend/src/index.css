@@ -184,7 +184,7 @@ a {
   display: none;
 }
 
-/* Responsive Utilities (Simple Mobile-First) */
+/* Responsive Utilities (Mobile-First) */
 @media (min-width: 768px) {
   .md\:block {
     display: block;
@@ -200,6 +200,118 @@ a {
 
   .md\:inline {
     display: inline;
+  }
+}
+
+/* Mobile Utilities */
+@media (max-width: 767px) {
+  .mobile\:hidden {
+    display: none;
+  }
+
+  .mobile\:block {
+    display: block;
+  }
+
+  .mobile\:flex {
+    display: flex;
+  }
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 767px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Typography adjustments for mobile */
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  /* Mobile Sidebar - Drawer Style */
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 280px !important;
+    transform: translateX(-100%);
+    opacity: 1 !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Mobile Navigation */
+  .navbar {
+    padding: 0 1rem;
+    height: 3.5rem;
+  }
+
+  /* Mobile spacing utilities */
+  .p-6 {
+    padding: 1rem;
+  }
+
+  .px-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .py-4 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  /* Mobile cards */
+  .card {
+    border-radius: 0.75rem;
+  }
+
+  .card-header {
+    padding: 1rem;
+  }
+
+  /* Mobile buttons */
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  /* Mobile form inputs */
+  .form-input {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9rem;
+  }
+
+  /* Mobile login card */
+  .login-card {
+    padding: 1.5rem;
+    margin: 1rem;
+    border-radius: 1rem;
+  }
+
+  .login-header {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Mobile tables */
+  table th,
+  table td {
+    padding: 0.5rem !important;
+    font-size: 0.85rem;
   }
 }
 
