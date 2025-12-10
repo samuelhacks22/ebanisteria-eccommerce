@@ -1,17 +1,9 @@
 {
-    "outputDirectory": "dist",
+    "outputDirectory": "frontend/dist",
     "rewrites": [
         {
-            "source": "/api/health",
-            "destination": "/api/health"
-        },
-        {
             "source": "/api/(.*)",
-            "destination": "/api/index"
-        },
-        {
-            "source": "/assets/(.*)",
-            "destination": "/assets/$1"
+            "destination": "/api/index.js"
         },
         {
             "source": "/(.*)",

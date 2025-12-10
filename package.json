@@ -3,7 +3,7 @@
     "private": true,
     "scripts": {
         "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
-        "build": "cd frontend && npm install && npm run build -- --outDir ../dist"
+        "build": "cd frontend && npm install && npm run build"
     },
     "engines": {
         "node": "18.x"
