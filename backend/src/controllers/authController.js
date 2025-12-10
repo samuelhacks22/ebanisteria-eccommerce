@@ -19,11 +19,13 @@ exports.login = async (req, res) => {
 
         const user = await User.findByUsername(username);
         if (!user) {
+            console.log('Login failed: User not found for username:', username);
             return res.status(401).json({ success: false, error: 'Invalid credentials' });
         }
 
         const isValid = await User.verifyPassword(user, password);
         if (!isValid) {
+            console.log('Login failed: Invalid password for user:', username);
             return res.status(401).json({ success: false, error: 'Invalid credentials' });
         }
 

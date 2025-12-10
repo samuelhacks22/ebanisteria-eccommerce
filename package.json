@@ -2,6 +2,7 @@
     "name": "ebanisteria-root",
     "private": true,
     "scripts": {
+        "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
         "build": "cd frontend && npm install && npm run build -- --outDir ../dist"
     },
     "engines": {
@@ -17,5 +18,8 @@
         "morgan": "^1.10.0",
         "pdfkit": "^0.17.2",
         "pg": "^8.11.3"
+    },
+    "devDependencies": {
+        "concurrently": "^9.2.1"
     }
 }
