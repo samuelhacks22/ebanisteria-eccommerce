@@ -54,9 +54,7 @@ const Layout = () => {
 
     return (
         <div className="flex w-full overflow-hidden bg-body" style={{ minHeight: '100vh' }}>
-            <Sidebar isOpen={isSidebarOpen} isMobile={isMobile} onClose={closeSidebar} />
-
-            {/* Mobile Overlay */}
+            {/* Mobile Overlay - Must come before sidebar in DOM to stay behind it */}
             {isMobile && isSidebarOpen && (
                 <div
                     onClick={closeSidebar}
@@ -72,6 +70,8 @@ const Layout = () => {
                     }}
                 />
             )}
+
+            <Sidebar isOpen={isSidebarOpen} isMobile={isMobile} onClose={closeSidebar} />
 
             <div className="flex flex-col flex-1 overflow-hidden relative" style={{ minHeight: '100vh' }}>
                 <Navigation toggleSidebar={toggleSidebar} />

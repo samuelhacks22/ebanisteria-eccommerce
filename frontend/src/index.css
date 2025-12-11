@@ -272,10 +272,18 @@ a {
     z-index: 1000;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    pointer-events: auto;
+    /* Ensure links are clickable */
   }
 
   .sidebar.mobile-open {
     transform: translateX(0);
+  }
+
+  /* Ensure sidebar links are clickable */
+  .sidebar-link {
+    pointer-events: auto;
+    cursor: pointer;
   }
 
   /* Mobile Navigation */
