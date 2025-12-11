@@ -4,25 +4,43 @@ import Sidebar from './Sidebar';
 import Navigation from './Navigation';
 
 const Layout = () => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 768);
 
-    // Detect mobile screen size
+    // Detect mobile screen size and update
     useEffect(() => {
         const checkMobile = () => {
             const mobile = window.innerWidth < 768;
+            const wasMobile = isMobile;
+
             setIsMobile(mobile);
-            if (mobile && isSidebarOpen) {
+
+            // Auto-close sidebar when switching to mobile
+            if (!wasMobile && mobile) {
                 setIsSidebarOpen(false);
-            } else if (!mobile && !isSidebarOpen) {
+            }
+            // Auto-open sidebar when switching to desktop
+            else if (wasMobile && !mobile) {
                 setIsSidebarOpen(true);
             }
         };
 
-        checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
-    }, []);
+    }, [isMobile]);
+
+    // Prevent body scroll when sidebar is open on mobile
+    useEffect(() => {
+        if (isMobile && isSidebarOpen) {
+            document.body.classList.add('sidebar-open');
+        } else {
+            document.body.classList.remove('sidebar-open');
+        }
+
+        return () => {
+            document.body.classList.remove('sidebar-open');
+        };
+    }, [isMobile, isSidebarOpen]);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -35,7 +53,7 @@ const Layout = () => {
     };
 
     return (
-        <div className="flex h-screen w-full overflow-hidden bg-body">
+        <div className="flex w-full overflow-hidden bg-body" style={{ minHeight: '100vh' }}>
             <Sidebar isOpen={isSidebarOpen} isMobile={isMobile} onClose={closeSidebar} />
 
             {/* Mobile Overlay */}
@@ -55,7 +73,7 @@ const Layout = () => {
                 />
             )}
 
-            <div className="flex flex-col flex-1 overflow-hidden relative">
+            <div className="flex flex-col flex-1 overflow-hidden relative" style={{ minHeight: '100vh' }}>
                 <Navigation toggleSidebar={toggleSidebar} />
                 <main className="flex-1 overflow-y-auto p-6 transition-all">
                     <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
