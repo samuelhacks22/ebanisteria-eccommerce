@@ -597,7 +597,9 @@ a {
 .sidebar {
   background-color: var(--bg-sidebar);
   color: var(--text-inverse);
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 280px;
+  /* Default desktop width */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;

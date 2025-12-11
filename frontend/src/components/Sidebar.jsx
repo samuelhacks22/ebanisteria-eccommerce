@@ -21,10 +21,15 @@ const Sidebar = ({ isOpen, isMobile, onClose }) => {
         }
     };
 
+    // Different styles for mobile vs desktop
+    const sidebarStyle = isMobile
+        ? {} // Let CSS handle mobile with transform
+        : { width: isOpen ? '280px' : '0', opacity: isOpen ? 1 : 0 }; // Desktop uses width/opacity
+
     return (
         <div
             className={`sidebar ${isMobile && isOpen ? 'mobile-open' : ''}`}
-            style={{ width: isOpen ? '280px' : '0', opacity: isOpen ? 1 : 0 }}
+            style={sidebarStyle}
         >
             <div className="sidebar-header">
                 <div style={{
