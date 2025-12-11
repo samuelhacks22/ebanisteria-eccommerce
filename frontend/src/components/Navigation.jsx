@@ -1,8 +1,21 @@
+import { useState, useEffect } from 'react';
 import { LogOut, Menu, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Navigation = ({ toggleSidebar }) => {
     const { user, logout } = useAuth();
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const showUserName = windowWidth >= 480;
 
     return (
         <header className="navbar">
@@ -16,14 +29,16 @@ const Navigation = ({ toggleSidebar }) => {
             </button>
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-3 text-right">
-                    <div className="block" style={{ display: window.innerWidth < 480 ? 'none' : 'block' }}>
-                        <span className="block text-sm font-semibold text-main">
-                            {user?.full_name}
-                        </span>
-                        <span className="block text-xs text-secondary capitalize">
-                            {user?.role === 'admin' ? 'Administrador' : 'Empleado'}
-                        </span>
-                    </div>
+                    {showUserName && (
+                        <div className="block">
+                            <span className="block text-sm font-semibold text-main">
+                                {user?.full_name}
+                            </span>
+                            <span className="block text-xs text-secondary capitalize">
+                                {user?.role === 'admin' ? 'Administrador' : 'Empleado'}
+                            </span>
+                        </div>
+                    )}
                     <div style={{
                         width: '36px', height: '36px',
                         backgroundColor: 'var(--bg-body)',

@@ -11,6 +11,7 @@ const Dashboard = () => {
         upcoming_deliveries: []
     });
     const [loading, setLoading] = useState(true);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -25,6 +26,17 @@ const Dashboard = () => {
         };
         fetchDashboardData();
     }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const isMobile = windowWidth < 768;
 
     const StatCard = ({ title, value, icon: Icon, color }) => (
         <div style={{
@@ -58,12 +70,12 @@ const Dashboard = () => {
 
     return (
         <div style={{
-            padding: window.innerWidth < 768 ? '15px' : '30px',
+            padding: isMobile ? '15px' : '30px',
             maxWidth: '1600px',
             margin: '0 auto',
             width: '100%'
         }}>
-            <div style={{ marginBottom: window.innerWidth < 768 ? '20px' : '30px' }}>
+            <div style={{ marginBottom: isMobile ? '20px' : '30px' }}>
                 <h1 style={{ marginBottom: '8px', color: 'var(--text-main)' }}>Panel Principal</h1>
                 <p style={{ color: 'var(--text-light)', marginTop: 0 }}>¡Bienvenido de nuevo, <strong style={{ color: 'var(--primary)' }}>{user?.full_name}</strong>!</p>
             </div>
@@ -71,8 +83,8 @@ const Dashboard = () => {
             {/* Stats Grid */}
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: window.innerWidth < 768 ? '1fr' : 'repeat(auto-fit, minmax(240px, 1fr))',
-                gap: window.innerWidth < 768 ? '12px' : '20px'
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(240px, 1fr))',
+                gap: isMobile ? '12px' : '20px'
             }}>
                 <StatCard title="Pedidos Pendientes" value={dashboardData.stats.pending} icon={Clock} color="#FF9800" />
                 <StatCard title="En Progreso" value={dashboardData.stats.in_progress} icon={Package} color="#2196F3" />
@@ -83,8 +95,8 @@ const Dashboard = () => {
             {/* Main Content Info */}
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: window.innerWidth < 768 ? '1fr' : 'repeat(auto-fit, minmax(400px, 1fr))',
-                gap: window.innerWidth < 768 ? '20px' : '30px',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(400px, 1fr))',
+                gap: isMobile ? '20px' : '30px',
                 marginTop: '20px'
             }}>
 
@@ -100,18 +112,18 @@ const Dashboard = () => {
                                 <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '500px' }}>
                                     <thead style={{ backgroundColor: 'var(--bg-light)', borderBottom: '1px solid var(--border)' }}>
                                         <tr>
-                                            <th style={{ padding: window.innerWidth < 768 ? '8px' : '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Pedido #</th>
-                                            <th style={{ padding: window.innerWidth < 768 ? '8px' : '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Cliente</th>
-                                            <th style={{ padding: window.innerWidth < 768 ? '8px' : '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Estado</th>
-                                            <th style={{ padding: window.innerWidth < 768 ? '8px' : '12px', textAlign: 'right', fontSize: '0.9rem', color: '#666' }}>Monto</th>
+                                            <th style={{ padding: isMobile ? '8px' : '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Pedido #</th>
+                                            <th style={{ padding: isMobile ? '8px' : '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Cliente</th>
+                                            <th style={{ padding: isMobile ? '8px' : '12px', textAlign: 'left', fontSize: '0.9rem', color: '#666' }}>Estado</th>
+                                            <th style={{ padding: isMobile ? '8px' : '12px', textAlign: 'right', fontSize: '0.9rem', color: '#666' }}>Monto</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {dashboardData.recent_orders.map((order, i) => (
                                             <tr key={order.id} style={{ borderBottom: i < dashboardData.recent_orders.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                                                <td style={{ padding: window.innerWidth < 768 ? '8px' : '12px', fontWeight: '500' }}>#{order.order_number}</td>
-                                                <td style={{ padding: window.innerWidth < 768 ? '8px' : '12px' }}>{order.customer_name}</td>
-                                                <td style={{ padding: window.innerWidth < 768 ? '8px' : '12px' }}>
+                                                <td style={{ padding: isMobile ? '8px' : '12px', fontWeight: '500' }}>#{order.order_number}</td>
+                                                <td style={{ padding: isMobile ? '8px' : '12px' }}>{order.customer_name}</td>
+                                                <td style={{ padding: isMobile ? '8px' : '12px' }}>
                                                     <span style={{
                                                         padding: '4px 8px',
                                                         borderRadius: '12px',
@@ -130,7 +142,7 @@ const Dashboard = () => {
                                                                 order.status === 'completed' ? 'Completado' : 'Entregado'}
                                                     </span>
                                                 </td>
-                                                <td style={{ padding: window.innerWidth < 768 ? '8px' : '12px', textAlign: 'right' }}>${order.agreed_price}</td>
+                                                <td style={{ padding: isMobile ? '8px' : '12px', textAlign: 'right' }}>${order.agreed_price}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -152,7 +164,7 @@ const Dashboard = () => {
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 {dashboardData.upcoming_deliveries.map((delivery, i) => (
                                     <div key={delivery.id} style={{
-                                        padding: window.innerWidth < 768 ? '12px' : '16px',
+                                        padding: isMobile ? '12px' : '16px',
                                         borderBottom: i < dashboardData.upcoming_deliveries.length - 1 ? '1px solid var(--border)' : 'none',
                                         display: 'flex',
                                         alignItems: 'center',
@@ -192,11 +204,11 @@ const Dashboard = () => {
 
             </div>
 
-            <div style={{ marginTop: window.innerWidth < 768 ? '30px' : '40px' }}>
+            <div style={{ marginTop: isMobile ? '30px' : '40px' }}>
                 <h2 style={{ fontSize: '1.2rem', marginBottom: '20px' }}>Acciones Rápidas</h2>
                 <div style={{
                     display: 'flex',
-                    flexDirection: window.innerWidth < 768 ? 'column' : 'row',
+                    flexDirection: isMobile ? 'column' : 'row',
                     gap: '15px'
                 }}>
                     <a href="/customers" style={{
